@@ -1,4 +1,5 @@
 const ethers = require('ethers')
+const twitterCLient = require('./twitterClient.js')
 
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)
@@ -124,7 +125,15 @@ const CONTRACT_ABI = [
 
 const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider)
 
-const TRANSFER_THRESHOLD = 100000000000
+const TRANSFER_THRESHOLD = 1000000000000
+
+const tweet = async (tweet) => {
+  try {
+    await twitterCLient.v1.tweet(tweet)
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 const main = async () => {
   const name = await contract.name()
@@ -133,7 +142,7 @@ const main = async () => {
   )
   contract.on('Transfer', (from, to, amount, data) => {
     if (amount.toNumber() >= TRANSFER_THRESHOLD) {
-      console.log(
+      tweet(
         `New whale transfer for $${(amount.toNumber() / 1000000)
           .toFixed(2)
           .toString()
@@ -143,7 +152,6 @@ const main = async () => {
           )} ${name}: https://etherscan.io/tx/${data.transactionHash}`
       )
     }
-    // console.log(from, to, amount, data)
   })
 }
 

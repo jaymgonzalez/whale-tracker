@@ -9,6 +9,7 @@
   "author": "me@jaymgonzalez.com",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "ethers": "^5.6.9",
     "twitter-api-v2": "^1.12.5"
   }
