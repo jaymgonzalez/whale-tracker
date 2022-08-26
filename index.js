@@ -1,5 +1,5 @@
 const ethers = require('ethers')
-const player = require('play-sound')((opts = {}))
+const { TwitterApi } = require('twitter-api-v2')
 
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)
@@ -127,21 +127,13 @@ const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider)
 
 const TRANSFER_THRESHOLD = 100000000000
 
-const playSound = () => {
-  player.play('ding.mp3', { mplayer: ['-v', 1] }, function (err) {
-    if (err) throw err
-  })
-}
-
 const main = async () => {
   const name = await contract.name()
-  playSound()
   console.log(
     `Whale tracker started!\nListening for large transactions on ${name}`
   )
   contract.on('Transfer', (from, to, amount, data) => {
     if (amount.toNumber() >= TRANSFER_THRESHOLD) {
-      playSound()
       console.log(
         `New whale transfer for $${(amount.toNumber() / 1000000)
           .toFixed(2)
