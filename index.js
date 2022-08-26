@@ -1,5 +1,4 @@
 const ethers = require('ethers')
-const { TwitterApi } = require('twitter-api-v2')
 
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)
@@ -126,13 +125,6 @@ const CONTRACT_ABI = [
 const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider)
 
 const TRANSFER_THRESHOLD = 100000000000
-
-const client = new TwitterApi({
-  appKey: process.env.TWITTER_API_KEY,
-  appSecret: process.env.TWITTER_API_KEY_SECRET,
-  accessToken: process.env.TWITTER_ACCESS_TOKEN,
-  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-})
 
 const main = async () => {
   const name = await contract.name()
