@@ -22,28 +22,31 @@ const contractCreation = (address, abi, provider) => {
 }
 
 const main = async () => {
-  const name = await contract.name()
+  for (const token of Object.entries(token_info)) {
+    const contract = contractCreation(token[1].address, token[1].abi, provider)
 
-  console.log(
-    `Whale tracker started!\nListening for large transactions on ${name}`
-  )
+    const name = token[0].toUpperCase()
 
-  const date = new Date().toISOString().replace('T', ' ').substring(0, 16)
+    console.log(
+      `Whale tracker started!\nListening for large transactions on ${name}`
+    )
 
-  contract.on('Transfer', (from, to, amount, data) => {
-    // const message = `New whale transfer for $${(amount.toNumber() / 1000000)
-    //   .toFixed(2)
-    //   .toString()
-    //   .replace(
-    //     /\B(?=(\d{3})+(?!\d))/g,
-    //     ','
-    //   )} ${name}: https://etherscan.io/tx/${
-    //   data.transactionHash
-    // } on ${date} UTC`
-    // if (amount.toNumber() >= TRANSFER_THRESHOLD) {
-    //   tweet(message)
-    // }
-  })
+    const date = new Date().toISOString().replace('T', ' ').substring(0, 16)
+    contract.on('Transfer', (from, to, amount, data) => {
+      const message = `New whale transfer for $${(amount.toNumber() / 1000000)
+        .toFixed(2)
+        .toString()
+        .replace(
+          /\B(?=(\d{3})+(?!\d))/g,
+          ','
+        )} ${name}: https://etherscan.io/tx/${
+        data.transactionHash
+      } on ${date} UTC`
+      if (amount.toNumber() >= TRANSFER_THRESHOLD) {
+        tweet(message)
+      }
+    })
+  }
 }
 
 main()
