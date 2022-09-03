@@ -1,5 +1,6 @@
 const ethers = require('ethers')
 const twitterCLient = require('./twitterClient.js')
+const token_info = require('./token_info')
 
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)

@@ -924,3 +924,5 @@ const token_info = {
     ],
   },
 }
+
+module.exports = token_info
