@@ -21,6 +21,17 @@ const contractCreation = (address, abi, provider) => {
   return contract
 }
 
+const dateNow = () =>
+  new Date().toISOString().replace('T', ' ').substring(0, 16)
+
+const messageInTweet = (amount, name, data, date) =>
+  `New whale transfer for $${(amount.toNumber() / 1000000)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name}: https://etherscan.io/tx/${
+    data.transactionHash
+  } on ${date} UTC`
+
 const main = async () => {
   for (const token of Object.entries(token_info)) {
     const contract = contractCreation(token[1].address, token[1].abi, provider)
@@ -31,18 +42,10 @@ const main = async () => {
       `Whale tracker started!\nListening for large transactions on ${name}`
     )
 
-    const date = new Date().toISOString().replace('T', ' ').substring(0, 16)
     contract.on('Transfer', (from, to, amount, data) => {
-      const message = `New whale transfer for $${(amount.toNumber() / 1000000)
-        .toFixed(2)
-        .toString()
-        .replace(
-          /\B(?=(\d{3})+(?!\d))/g,
-          ','
-        )} ${name}: https://etherscan.io/tx/${
-        data.transactionHash
-      } on ${date} UTC`
       if (amount.toNumber() >= TRANSFER_THRESHOLD) {
+        const date = dateNow()
+        const message = messageInTweet(amount, name, data, date)
         tweet(message)
       }
     })
