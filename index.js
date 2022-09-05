@@ -1,6 +1,6 @@
 const ethers = require('ethers')
 const twitterCLient = require('./twitterClient.js')
-const token_info = require('./token_info')
+const tokenInfo = require('./tokenInfo')
 
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)
@@ -33,7 +33,7 @@ const messageInTweet = (amount, name, data, date) =>
   } on ${date} UTC`
 
 const main = async () => {
-  for (const token of Object.entries(token_info)) {
+  for (const token of Object.entries(tokenInfo)) {
     const contract = contractCreation(token[1].address, token[1].abi, provider)
 
     const name = token[0].toUpperCase()
