@@ -53,6 +53,7 @@ const exchangesWallets = {
   kucoin: [
     '0xd6216fc19db775df9774a6e33526131da7d19a2c',
     '0xFf651EAD42b8EeA0B9cB88EDc92704ef6af372Ce',
+    '0xf16e9b0d03470827a95cdfd0cb8a8a3b46969b91',
   ],
   kraken: [
     '0x89e51fa8ca5d66cd220baed62ed01e8951aa7c40',

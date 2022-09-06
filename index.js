@@ -36,11 +36,18 @@ const messageInTweet = (amount, name, data, date, from, to) =>
   }`
 
 const txFromToExchange = (txAddress) => {
+  let exchange
   for (const exchangeWallets of Object.entries(exchangesWallets)) {
     for (const exchangeWallet of exchangeWallets[1]) {
-      if (exchangeWallet == txAddress) return exchangeWallets[0]
+      if (exchangeWallet == txAddress) {
+        exchange = exchangeWallets[0]
+        break
+      }
     }
+    if (exchange != undefined) break
   }
+  console.log(exchange)
+  return exchange
 }
 
 const main = async () => {
@@ -59,7 +66,8 @@ const main = async () => {
         const txTo = txFromToExchange(to)
         const date = dateNow()
         const message = messageInTweet(amount, name, data, date, txFrom, txTo)
-        tweet(message)
+        // tweet(message)
+        console.log(message)
       }
     })
   }
