@@ -31,23 +31,16 @@ const messageInTweet = (amount, name, data, date, from, to) =>
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name}: https://etherscan.io/tx/${
     data.transactionHash
-  } on ${date} UTC ${from ? `from exchange ${from.toUpperCase()}` : ''} ${
-    to ? `to exchange ${to.toUpperCase()}` : ''
+  } on ${date} UTC ${from ? `from ${from.toUpperCase()}` : ''} ${
+    to ? `to ${to.toUpperCase()}` : ''
   }`
 
 const txFromToExchange = (txAddress) => {
-  let exchange
   for (const exchangeWallets of Object.entries(exchangesWallets)) {
     for (const exchangeWallet of exchangeWallets[1]) {
-      if (exchangeWallet == txAddress) {
-        exchange = exchangeWallets[0]
-        break
-      }
+      if (exchangeWallet === txAddress.toLowerCase()) return exchangeWallets[0]
     }
-    if (exchange != undefined) break
   }
-  console.log(exchange)
-  return exchange
 }
 
 const main = async () => {
@@ -66,8 +59,7 @@ const main = async () => {
         const txTo = txFromToExchange(to)
         const date = dateNow()
         const message = messageInTweet(amount, name, data, date, txFrom, txTo)
-        // tweet(message)
-        console.log(message)
+        tweet(message)
       }
     })
   }
