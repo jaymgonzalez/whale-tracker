@@ -31,8 +31,8 @@ const messageInTweet = (amount, name, data, date, from, to) =>
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name}: https://etherscan.io/tx/${
     data.transactionHash
-  } on ${date} UTC ${from ? `from ${from.toUpperCase()}` : ''}${
-    to ? `to ${to.toUpperCase()}` : ''
+  } on ${date} UTC${from ? ` from ${from.toUpperCase()}` : ''}${
+    to ? ` to ${to.toUpperCase()}` : ''
   }`
 
 const txFromToExchange = (txAddress) => {
