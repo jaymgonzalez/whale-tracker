@@ -6,7 +6,7 @@ const exchangesWallets = require('./exchangesWallets.js')
 const rpcURL = 'https://cloudflare-eth.com/'
 const provider = new ethers.providers.JsonRpcProvider(rpcURL)
 
-const TRANSFER_THRESHOLD = 1000000000000
+const TRANSFER_THRESHOLD = 50000000000000
 
 const tweet = async (tweet) => {
   try {
