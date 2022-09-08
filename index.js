@@ -26,12 +26,12 @@ const dateNow = () =>
   new Date().toISOString().replace('T', ' ').substring(0, 16)
 
 const messageInTweet = (amount, name, data, date, from, to) =>
-  `New whale transfer for $${(amount.toNumber() / 1000000)
+  `🚨🚨 New whale transfer for $${(amount.toNumber() / 1000000)
     .toFixed(2)
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name}: https://etherscan.io/tx/${
     data.transactionHash
-  } on ${date} UTC ${from ? `from ${from.toUpperCase()}` : ''} ${
+  } on ${date} UTC ${from ? `from ${from.toUpperCase()}` : ''}${
     to ? `to ${to.toUpperCase()}` : ''
   }`
 
