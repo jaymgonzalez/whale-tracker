@@ -11,7 +11,8 @@ const TRANSFER_THRESHOLD = 5000000000000
 const tweet = async (tweet) => {
   try {
     await twitterCLient.v1.tweet(tweet)
-    console.log('tweet sent!')
+    const date = dateNow()
+    console.log(`tweet sent at ${date}`)
   } catch (err) {
     console.error(err)
   }
@@ -26,14 +27,15 @@ const dateNow = () =>
   new Date().toISOString().replace('T', ' ').substring(0, 16)
 
 const messageInTweet = (amount, name, data, date, from, to) =>
-  `🚨🚨 New whale transfer for $${(amount.toNumber() / 1000000)
+  `🚨🚨 New Whale Transfer 🚨🚨
+  $${(amount.toNumber() / 1000000)
     .toFixed(2)
     .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name}: https://etherscan.io/tx/${
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} ${name} on ${date} UTC${
+    from ? ` from ${from.toUpperCase()}` : ''
+  }${to ? ` to ${to.toUpperCase()}` : ''}: https://etherscan.io/tx/${
     data.transactionHash
-  } on ${date} UTC${from ? ` from ${from.toUpperCase()}` : ''}${
-    to ? ` to ${to.toUpperCase()}` : ''
-  }`
+  } `
 
 const txFromToExchange = (txAddress) => {
   for (const exchangeWallets of Object.entries(exchangesWallets)) {
